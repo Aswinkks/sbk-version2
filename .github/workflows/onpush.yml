@@ -1,0 +1,21 @@
+name: Trigger Pipeline on Folder Change
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-folder-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Determine Changed Folders
+      id: changed_folders
+      run: |
+        folders=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u)
+        echo "::set-output name=changed_folders::${folders}"
+      shell: bash
