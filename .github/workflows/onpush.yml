@@ -23,7 +23,8 @@ jobs:
           if [ -n "$folder" ] && [ "$folder" != "." ]; then
             changed_folders+=("$folder")
           fi
-        done < <(git diff --name-only HEAD^ HEAD)
+        done < <(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
 
         # Deduplicate the array of changed folders
         unique_changed_folders=($(echo "${changed_folders[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
