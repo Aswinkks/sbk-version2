@@ -16,6 +16,15 @@ jobs:
     - name: Determine Changed Folders
       id: changed_folders
       run: |
-        folders=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u)
-        echo "::set-output name=changed_folders::${folders}"
-      shell: bash
+        changed_folders=()
+        while IFS= read -r line; do
+          # Extract the folder path from the diff
+          folder=$(echo "$line" | cut -d/ -f1)
+          if [ -n "$folder" ] && [ "$folder" != "." ]; then
+            changed_folders+=("$folder")
+          fi
+        done < <(git diff --name-only HEAD^ HEAD)
+
+        # Deduplicate the array of changed folders
+        unique_changed_folders=($(echo "${changed_folders[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
+
