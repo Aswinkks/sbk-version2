@@ -18,11 +18,11 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         ignore: "**/.github" # glob
-        foldersOnly: true # to only include folders in the output # either json, csv or newsdlinesd
+        foldersOnly: true # to only include folders in the output # either json, csv or newlines
     - name: Echo
       run: echo ${{ steps.get_changed.outputs.changed }}
     - name: Condition
-      if: ${{ contains(steps.get_changed.outputs.changed, 'f2') }}
+      if: ${{ contains(steps.get_changed.outputs.changed, 'f2') }} #? hello
       run: echo F2 FOLDER
     - name: Condition
       if: ${{ contains(steps.get_changed.outputs.changed, 'f3') }}
