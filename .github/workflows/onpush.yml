@@ -13,25 +13,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - name: check modified files
-      id: check_files
+    - name: Create a temporary file to store the output of git diff
       run: |
-        echo "=============== list modified files ==============="
-        git diff --name-only HEAD^ HEAD
-        
-        echo "========== check paths of modified files =========="
-        git diff --name-only HEAD^ HEAD &gt; files.txt
-        while IFS= read -r file
-        do
-          echo $file
-          if [[ $file != db/* ]]; then
-            echo "This modified file is not under the 'db' folder."
-            echo "::set-output name=run_job::false"
-            break
-          else
-            echo "::set-output name=run_job::true"
-          fi
-        done &lt; files.txt
+        temp_file=$(mktemp)
+        git diff --name-only ${{ github.event.before }} ${{ github.sha }} > "$temp_file"
+        echo "::set-output name=temp_file::$temp_file"
+      shell: bash
+
+    - name: Determine Changed Files
+      id: changed_files
+      run: |
+        temp_file="${{ steps.create-temp-file.outputs.temp_file }}"
+        file_list=()
+        while IFS= read -r file; do
+          file_list+=("$file")
+        done < "$temp_file"
+        echo "::set-output name=changed_files::${file_list[*]}"
+      shell: bash
 
     - name: Determine Changed Folders
       id: changed_folders
