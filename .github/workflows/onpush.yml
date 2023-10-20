@@ -16,7 +16,8 @@ jobs:
     - name: Create a temporary file to store the output of git diff
       run: |
         temp_file=$(mktemp)
-        git diff --name-only ${{ github.event.before }} ${{ github.sha }} > "$temp_file"
+        # Use the --full-history option to ensure all changes are captured
+        git diff --name-only --full-history ${{ github.event.before }} ${{ github.sha }} > "$temp_file"
         echo "::set-output name=temp_file::$temp_file"
       shell: bash
 
@@ -29,6 +30,14 @@ jobs:
           file_list+=("$file")
         done < "$temp_file"
         echo "::set-output name=changed_files::${file_list[*]}"
+      shell: bash
+
+    - name: Print Changed Files
+      run: |
+        changed_files=("${{ steps.changed_files.outputs.changed_files }}")
+        for file in "${changed_files[@]}"; do
+          echo "File: $file"
+        done
       shell: bash
 
     - name: Determine Changed Folders
