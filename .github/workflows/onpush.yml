@@ -23,6 +23,12 @@ jobs:
       run: echo ${{ steps.get_changed.outputs.changed }}
     - name: Condition
       if: ${{ contains(steps.get_changed.outputs.changed, 'f2') }}
-      run: echo hi
+      run: echo F2 FOLDER
+    - name: Condition
+      if: ${{ contains(steps.get_changed.outputs.changed, 'f3') }}
+      run: echo F3 FOLDER
+    - name: Condition
+      if: ${{ contains(steps.get_changed.outputs.changed, 'f1') }}
+      run: echo F1 FOLDER
 
 
