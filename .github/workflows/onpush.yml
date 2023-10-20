@@ -16,16 +16,24 @@ jobs:
     - name: Determine Changed Folders
       id: changed_folders
       run: |
-        changed_folders=()
-        while IFS= read -r line; do
-          # Extract the folder path from the diff
-          folder=$(echo "$line" | cut -d/ -f1)
-          if [ -n "$folder" ] && [ "$folder" != "." ]; then
-            changed_folders+=("$folder")
-          fi
-        done < <(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+        # Create a temporary file to store the output of git diff
+        temp_file=$(mktemp)
+        git diff --name-only HEAD^ HEAD > "$temp_file"
+        
+        # Initialize an empty file_list array
+        file_list=()
+        
+        # Populate the file_list array by reading from the temporary file
+        while IFS= read -r file; do
+          file_list+=("$file")
+        done < "$temp_file"
+        
+        # Clean up the temporary file
+        rm "$temp_file"
+        
+        # Print the contents of the file_list
+        for file in "${file_list[@]}"; do
+          echo "File1: $file"
+        done
 
-
-        # Deduplicate the array of changed folders
-        unique_changed_folders=($(echo "${changed_folders[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
 
