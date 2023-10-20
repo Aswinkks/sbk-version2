@@ -18,6 +18,9 @@ jobs:
       run: |
         # Create a temporary file to store the output of git diff
         temp_file=$(mktemp)
+        echo "=============== list modified files ==============="
+        git diff --name-only HEAD^ HEAD
+        echo "=============== list modified files ==============="
         git diff --name-only HEAD^ HEAD > "$temp_file"
         
         # Initialize an empty file_list array
