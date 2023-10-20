@@ -21,7 +21,4 @@ jobs:
         foldersOnly: true # to only include folders in the output # either json, csv or newsdlinesd
     - name: Echo
       run: echo ${{ steps.get_changed.outputs.changed }}
-    - name: condition
-      if: "f2" in ${{ steps.get_changed.outputs.changed }}
-      run: echo hi
 
