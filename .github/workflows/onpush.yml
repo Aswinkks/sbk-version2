@@ -40,7 +40,7 @@ jobs:
           if [[ $commit_message == *"MAJOR"* ]]; then
           echo "i'm major commit"
           else
-          echo "$commit_message"
+          echo "$commit_message ."
           fi
 
 
