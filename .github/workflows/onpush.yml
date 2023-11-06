@@ -60,5 +60,6 @@ jobs:
               ((patch_version++))
               new_version="${major_version}.${minor_version}.${patch_version}"            
               echo "Updated version: $new_version"
+          fi
 
 
