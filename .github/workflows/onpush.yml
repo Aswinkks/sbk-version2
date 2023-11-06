@@ -35,8 +35,7 @@ jobs:
       run: echo F2f3
     - name: Update Semantic Version
       run: |
-          commit_message="${{ github.event.head_commit.message }}"
-          
+          commit_message="${{ github.event.head_commit.message }}"    
           if [[ $commit_message == *"MAJOR"* ]]; then
               version=$(curl -s "https://pypi.org/pypi/sigmoidpythonpackage/json" | jq -r '.info.version')
               major_version=$(echo "$version" | cut -d. -f1)
