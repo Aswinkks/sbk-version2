@@ -52,12 +52,12 @@ jobs:
             ((minor_version++))
             new_version="${major_version}.${minor_version}.0"              
             echo "Updated version: $new_version"
-        elif [[ $commit_message == *"MAJOR"* ]]; then
+        elif [[ $commit_message == *"FIX"* ]]; then
             echo "this -> $commit_message"
             version=$(curl -s "https://pypi.org/pypi/sigmoidpythonpackage/json" | jq -r '.info.version')
-            major_version=$(echo "$version" | cut -d. -f1)
-            ((major_version++))
-            new_version="${major_version}.0.0"              
+            fix_version=$(echo "$version" | cut -d. -f1)
+            ((fix_version++))
+            new_version="${fix_version}.0.0"              
             echo "Updated version: $new_version"
         fi
 
