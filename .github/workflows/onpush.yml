@@ -36,7 +36,7 @@ jobs:
     - name: Update Semantic Version
       run: |
       
-          commit_message="${{ steps.commit_message.outputs.message }}"
+          commit_message="${{ github.event.head_commit.message }}"
           if [[ $commit_message == *"MAJOR"* ]]; then
           echo "i'm major commit"
           else
