@@ -37,11 +37,11 @@ jobs:
       run: |
         commit_message="${{ github.event.head_commit.message }}"
         
-        if [[ $commit_message == *"MAJOR"* ]]; then
+        if [[ $commit_message == *"MAJORS"* ]]; then
             version=$(curl -s "https://pypi.org/pypi/sigmoidpythonpackage/json" | jq -r '.info.version')
             major_version=$(echo "$version" | cut -d. -f1)
             ((major_version++))
-            new_version="${major_version}.0.0"    
+            new_version="${major_version}.0.0"              
             echo "Updated version: $new_version"
         elif [[ $commit_message == *"MINOR"* ]]; then
             version=$(curl -s "https://pypi.org/pypi/sigmoidpythonpackage/json" | jq -r '.info.version')
