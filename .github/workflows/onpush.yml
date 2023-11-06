@@ -29,7 +29,7 @@ jobs:
       run: echo F3 FOLDER
     - name: Condition
       if: ${{ contains(steps.get_changed.outputs.changed, 'f1') }}
-      run: echo F1 FOLDER
+      run: echo F1 FOLDERS
     - name: Condition
       if: ${{ contains(steps.get_changed.outputs.changed, 'f2')  && contains(steps.get_changed.outputs.changed, 'f3') }}
       run: echo F2fS3
