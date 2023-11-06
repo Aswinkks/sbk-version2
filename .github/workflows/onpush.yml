@@ -37,11 +37,13 @@ jobs:
       run: |
         commit_message="${{ github.event.head_commit.message }}"
         
-        if [[ $commit_message == *"MAJORS"* ]]; then
+        if [[ $commit_message == *"PATCH"* ]]; then
             version=$(curl -s "https://pypi.org/pypi/sigmoidpythonpackage/json" | jq -r '.info.version')
             major_version=$(echo "$version" | cut -d. -f1)
-            ((major_version++))
-            new_version="${major_version}.0.0"              
+            minor_version=$(echo "$version" | cut -d. -f2)
+            patch_version=$(echo "$version" | cut -d. -f3)
+            ((patch_version++))
+            new_version="${major_version}.${minor_version}.${patch_version}"            
             echo "Updated version: $new_version"
         elif [[ $commit_message == *"MINOR"* ]]; then
             version=$(curl -s "https://pypi.org/pypi/sigmoidpythonpackage/json" | jq -r '.info.version')
@@ -50,13 +52,11 @@ jobs:
             ((minor_version++))
             new_version="${major_version}.${minor_version}.0"              
             echo "Updated version: $new_version"
-        elif [[ $commit_message == *"PATCH"* ]]; then
+        elif [[ $commit_message == *"MAJOR"* ]]; then
             version=$(curl -s "https://pypi.org/pypi/sigmoidpythonpackage/json" | jq -r '.info.version')
             major_version=$(echo "$version" | cut -d. -f1)
-            minor_version=$(echo "$version" | cut -d. -f2)
-            patch_version=$(echo "$version" | cut -d. -f3)
-            ((patch_version++))
-            new_version="${major_version}.${minor_version}.${patch_version}"            
+            ((major_version++))
+            new_version="${major_version}.0.0"              
             echo "Updated version: $new_version"
         fi
 
