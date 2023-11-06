@@ -32,7 +32,7 @@ jobs:
       run: echo F1 FOLDER
     - name: Condition
       if: ${{ contains(steps.get_changed.outputs.changed, 'f2')  && contains(steps.get_changed.outputs.changed, 'f3') }}
-      run: echo F2f3
+      run: echo F2fS3
     - name: Update Semantic Version
       run: |
           commit_message="${{ github.event.head_commit.message }}"    
