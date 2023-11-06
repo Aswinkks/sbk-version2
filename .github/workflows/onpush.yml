@@ -41,5 +41,6 @@ jobs:
           echo "i'm major"
           else
           echo "i'm minor"
+          fi
 
 
