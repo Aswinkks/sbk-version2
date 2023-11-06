@@ -38,7 +38,7 @@ jobs:
       
           commit_message="${{ steps.commit_message.outputs.message }}"
           if [[ $commit_message == *"MAJOR"* ]]; then
-          echo "i'm major"
+          echo "i'm major commit"
           else
           echo "i'm minor"
           fi
