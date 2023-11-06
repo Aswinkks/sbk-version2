@@ -50,7 +50,6 @@ jobs:
             major_version=$(echo "$version" | cut -d. -f1)
             minor_version=$(echo "$version" | cut -d. -f2)
             ((minor_version++))
-            ((major_version++))
             new_version="${major_version}.${minor_version}.0"              
             echo "Updated version: $new_version"
         elif [[ $commit_message == *"MAJOR"* ]]; then
